@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xyaa Store</title>
+    <link rel="icon" href="https://files.catbox.moe/p4ccrc.jpeg" type="image/jpeg">
+    <style>
+        /* CSS untuk tema ungu black hole */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a001f; /* Warna dasar ungu gelap */
+            color: #e0e0e0;
+            overflow: hidden; /* Mencegah scroll */
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Animasi Black Hole */
+        .blackhole-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(106, 17, 203, 0.3) 0%, rgba(44, 0, 80, 0.8) 50%, rgba(10, 0, 31, 1) 100%);
+            animation: rotateBlackHole 60s linear infinite; /* Animasi rotasi lambat */
+            z-index: -2; /* Di bawah konten dan salju */
+        }
+
+        @keyframes rotateBlackHole {
+            from {
+                transform: rotate(0deg) scale(1.2);
+            }
+            to {
+                transform: rotate(360deg) scale(1.2);
+            }
+        }
+
+        /* Animasi salju */
+        .snowflake {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+            opacity: 0;
+            z-index: -1; /* Di atas black hole, di bawah konten */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px); /* Mulai dari atas sedikit di luar viewport */
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh); /* Jatuh hingga ke bawah viewport */
+                opacity: 0;
+            }
+        }
+
+        /* Kontainer utama */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1; /* Konten di atas semua animasi */
+        }
+
+        /* Judul */
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 25px;
+            color: #d8b4fe;
+            text-shadow: 0 0 15px rgba(216, 180, 254, 0.7);
+            letter-spacing: 2px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tombol */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            border: none;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .button.whatsapp-channel {
+            background: linear-gradient(45deg, #6a11cb, #20e3b2);
+        }
+
+        .button.whatsapp-number {
+            background: linear-gradient(45deg, #20e3b2, #6a11cb);
+        }
+
+        .button.telegram-user {
+            background: linear-gradient(45deg, #0088cc, #005a8b);
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            opacity: 0.9;
+        }
+
+        /* Floating button untuk musik */
+        #musicToggleButton {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            /* Sesuaikan lebar dan padding agar teks muat */
+            width: auto;
+            padding: 10px 20px;
+            min-width: 120px; /* Lebar minimum untuk teks */
+            background-color: rgba(106, 17, 203, 0.8);
+            color: white;
+            border: none;
+            border-radius: 30px; /* Agar lebih mirip tombol */
+            font-size: 1.1em; /* Ukuran font agar muat */
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 100; /* Pastikan di atas semua elemen */
+        }
+
+        #musicToggleButton:hover {
+            background-color: #6a11cb;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Media queries untuk responsivitas */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .button {
+                padding: 12px 30px;
+                font-size: 1.1em;
+            }
+            #musicToggleButton {
+                /* Sesuaikan ukuran tombol untuk tampilan mobile */
+                min-width: 100px;
+                padding: 8px 15px;
+                font-size: 0.9em;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .button {
+                padding: 10px 25px;
+                font-size: 1em;
+            }
+            #musicToggleButton {
+                min-width: 90px;
+                padding: 7px 12px;
+                font-size: 0.8em;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blackhole-bg"></div>
+    <audio id="backgroundMusic" src="https://files.catbox.moe/56cr9o.mp3" loop></audio>
+
+    <div class="container">
+        <h1>Selamat Datang di Xyaa Store</h1>
+        <div class="button-group">
+            <a href="https://chat.whatsapp.com/INVITASI_CHANNEL_ANDA" class="button whatsapp-channel" target="_blank">Gabung Channel WhatsApp</a>
+            <a href="https://wa.me/6285184100543" class="button whatsapp-number" target="_blank">Hubungi WhatsApp Saya</a>
+            <a href="https://t.me/Xyaa_aja" class="button telegram-user" target="_blank">Chat di Telegram</a>
+        </div>
+    </div>
+
+    <button id="musicToggleButton">Play Music</button>
+
+    <script>
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const musicToggleButton = document.getElementById('musicToggleButton');
+        let isPlaying = false; // Status awal musik
+
+        // Fungsi untuk memutar atau menjeda musik
+        function toggleMusic() {
+            if (isPlaying) {
+                backgroundMusic.pause();
+                musicToggleButton.textContent = 'Play Music'; // Ganti teks menjadi "Play Music"
+            } else {
+                backgroundMusic.play().catch(e => console.log("Autoplay blocked:", e));
+                musicToggleButton.textContent = 'Stop Music'; // Ganti teks menjadi "Stop Music"
+            }
+            isPlaying = !isPlaying; // Balik status
+        }
+
+        // Event listener untuk tombol musik
+        musicToggleButton.addEventListener('click', toggleMusic);
+
+        // Memulai musik secara otomatis saat halaman dimuat (jika diizinkan browser)
+        window.addEventListener('load', () => {
+            backgroundMusic.play()
+                .then(() => {
+                    isPlaying = true;
+                    musicToggleButton.textContent = 'Stop Music'; // Set teks menjadi "Stop Music" jika berhasil auto-play
+                })
+                .catch(e => {
+                    console.log("Autoplay blocked on load:", e);
+                    isPlaying = false;
+                    musicToggleButton.textContent = 'Play Music'; // Set teks menjadi "Play Music" jika auto-play gagal
+                });
+        });
+
+        // Membangkitkan salju secara dinamis
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            document.body.appendChild(snowflake);
+
+            const size = Math.random() * 5 + 3;
+            snowflake.style.width = size + 'px';
+            snowflake.style.height = size + 'px';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 10 + 5 + 's';
+            snowflake.style.animationDelay = Math.random() * 5 + 's';
+            // Posisikan salju di atas viewport saat dibuat
+            snowflake.style.top = '-10px';
+
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+            });
+        }
+
+        for (let i = 0; i < 50; i++) {
+            createSnowflake();
+        }
+
+        setInterval(createSnowflake, 500);
+    </script>
+</body>
+</html>
